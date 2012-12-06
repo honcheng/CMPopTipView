@@ -182,25 +182,53 @@
 		blue = components[2];
 		alpha = components[3];
 	}
-	CGFloat colorList[] = {
-		//red, green, blue, alpha 
-		red*1.16+colourHL, green*1.16+colourHL, blue*1.16+colourHL, alpha,
-		red*1.16+colourHL, green*1.16+colourHL, blue*1.16+colourHL, alpha,
-		red*1.08+colourHL, green*1.08+colourHL, blue*1.08+colourHL, alpha,
-		red     +colourHL, green     +colourHL, blue     +colourHL, alpha,
-		red     +colourHL, green     +colourHL, blue     +colourHL, alpha
-	};
-	myColorSpace = CGColorSpaceCreateDeviceRGB();
-	myGradient = CGGradientCreateWithColorComponents(myColorSpace, colorList, locationList, locationCount);
-	CGPoint startPoint, endPoint;
-	startPoint.x = 0;
-	startPoint.y = 0;
-	endPoint.x = 0;
-	endPoint.y = CGRectGetMaxY(self.bounds);
+    
+    if (!self.disableGradient)
+    {
+        CGFloat colorList[] = {
+            //red, green, blue, alpha
+            red*1.16+colourHL, green*1.16+colourHL, blue*1.16+colourHL, alpha,
+            red*1.16+colourHL, green*1.16+colourHL, blue*1.16+colourHL, alpha,
+            red*1.08+colourHL, green*1.08+colourHL, blue*1.08+colourHL, alpha,
+            red     +colourHL, green     +colourHL, blue     +colourHL, alpha,
+            red     +colourHL, green     +colourHL, blue     +colourHL, alpha
+        };
+        myColorSpace = CGColorSpaceCreateDeviceRGB();
+        myGradient = CGGradientCreateWithColorComponents(myColorSpace, colorList, locationList, locationCount);
+        CGPoint startPoint, endPoint;
+        startPoint.x = 0;
+        startPoint.y = 0;
+        endPoint.x = 0;
+        endPoint.y = CGRectGetMaxY(self.bounds);
+        
+        CGContextDrawLinearGradient(c, myGradient, startPoint, endPoint,0);
+        CGGradientRelease(myGradient);
+        CGColorSpaceRelease(myColorSpace);
+    }
+    else
+    {
+        CGFloat colorList[] = {
+            //red, green, blue, alpha
+            red+colourHL, green+colourHL, blue+colourHL, alpha,
+            red+colourHL, green+colourHL, blue+colourHL, alpha,
+            red+colourHL, green+colourHL, blue+colourHL, alpha,
+            red     +colourHL, green     +colourHL, blue     +colourHL, alpha,
+            red     +colourHL, green     +colourHL, blue     +colourHL, alpha
+        };
+        myColorSpace = CGColorSpaceCreateDeviceRGB();
+        myGradient = CGGradientCreateWithColorComponents(myColorSpace, colorList, locationList, locationCount);
+        CGPoint startPoint, endPoint;
+        startPoint.x = 0;
+        startPoint.y = 0;
+        endPoint.x = 0;
+        endPoint.y = CGRectGetMaxY(self.bounds);
+        
+        CGContextDrawLinearGradient(c, myGradient, startPoint, endPoint,0);
+        CGGradientRelease(myGradient);
+        CGColorSpaceRelease(myColorSpace);
+
+    }
 	
-	CGContextDrawLinearGradient(c, myGradient, startPoint, endPoint,0);
-	CGGradientRelease(myGradient);
-	CGColorSpaceRelease(myColorSpace);
 	
     //Draw Border
     int numBorderComponents = CGColorGetNumberOfComponents([borderColor CGColor]);
